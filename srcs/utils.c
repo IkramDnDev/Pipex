@@ -6,7 +6,7 @@
 /*   By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:10:59 by idahhan           #+#    #+#             */
-/*   Updated: 2025/01/16 18:19:49 by idahhan          ###   ########.fr       */
+/*   Updated: 2025/01/19 12:26:01 by idahhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,11 @@ char	*find_command_path(const char *command, char **env)
 	perror("Error : Command not found");
 	return (NULL);
 }
+void	error(void)
+{
+	perror("Error");
+	exit(1);
+}
 
 void	execute_command(char *cmd, char **env)
 {
@@ -86,8 +91,7 @@ void	execute_command(char *cmd, char **env)
 	if (!cmd_split || !cmd_split[0])
 	{
 		ft_free_split(cmd_split);
-		perror("Error");
-		exit(1);
+		error();
 	}
 	path = find_command_path(cmd_split[0], env);
 	if (!path)
@@ -98,7 +102,6 @@ void	execute_command(char *cmd, char **env)
 	if (execve(path, cmd_split, env) == -1)
 	{
 		ft_free_split(cmd_split);
-		perror("Execve Failed");
-		exit(1);
+		error();
 	}
 }

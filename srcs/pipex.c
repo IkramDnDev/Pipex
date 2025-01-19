@@ -6,7 +6,7 @@
 /*   By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:11:43 by idahhan           #+#    #+#             */
-/*   Updated: 2025/01/16 17:37:14 by idahhan          ###   ########.fr       */
+/*   Updated: 2025/01/19 18:05:44 by idahhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	parent_process(char **argv, char **env, int *fd)
 	execute_command(argv[3], env);
 }
 
-void	leaks(void)
+void	le(void)
 {
 	system("leaks pipex");
 }
@@ -64,16 +64,10 @@ int	main(int ac, char **av, char **env)
 	if (ac == 5)
 	{
 		if (pipe(fd) == -1)
-		{
-			perror("pipe");
-			return (1);
-		}
+			error();
 		pid = fork();
 		if (pid == -1)
-		{
-			perror("fork");
-			return (1);
-		}
+			error();
 		if (pid == 0)
 			child_process(av, env, fd);
 		waitpid(pid, NULL, 0);
@@ -81,6 +75,6 @@ int	main(int ac, char **av, char **env)
 	}
 	else
 		printf("number of argument is not valid !");
-	atexit(leaks);
+	atexit(le);
 	return (0);
 }

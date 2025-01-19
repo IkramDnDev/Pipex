@@ -6,7 +6,7 @@
 /*   By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 17:53:12 by idahhan           #+#    #+#             */
-/*   Updated: 2025/01/18 17:53:14 by idahhan          ###   ########.fr       */
+/*   Updated: 2025/01/19 12:25:43 by idahhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,12 @@ char	*find_command_path(const char *command, char **env)
 	return (NULL);
 }
 
+void	error(void)
+{
+	perror("Error");
+	exit(1);
+}
+
 void	execute_command(char *cmd, char **env)
 {
 	char	**cmd_split;
@@ -102,4 +108,3 @@ void	execute_command(char *cmd, char **env)
 		exit(1);
 	}
 }
-

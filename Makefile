@@ -1,17 +1,18 @@
 NAME = pipex
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -Iincludes -Ilibft/includes
+CFLAGS = -Wall -Wextra -Werror -g -Iincludes -Ilibft/includes 
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 SRC_DIR = srcs
 
 SRCS = $(SRC_DIR)/pipex.c \
-		$(SRC_DIR)/utils.c
+		$(SRC_DIR)/utils.c \
 
 SRCS_BONUS = $(SRC_DIR)/pipex_bonus.c \
-		$(SRC_DIR)/utils_bonus.c
+		$(SRC_DIR)/utils_bonus.c \
+		$(SRC_DIR)/get_next_line.c
 
 OBJS = $(SRCS:$(SRC_DIR)/%.c=%.o)
 OBJS_BONUS = $(SRCS_BONUS:$(SRC_DIR)/%.c=%.o)
