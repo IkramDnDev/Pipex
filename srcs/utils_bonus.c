@@ -6,11 +6,11 @@
 /*   By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 17:53:12 by idahhan           #+#    #+#             */
-/*   Updated: 2025/01/19 12:25:43 by idahhan          ###   ########.fr       */
+/*   Updated: 2025/01/20 17:11:13 by idahhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "../includes/pipex_bonus.h"
 #include "../libft/libft.h"
 
 char	*get_env_value(char *name, char **env)
@@ -52,28 +52,24 @@ char	*find_command_path(const char *command, char **env)
 	char	*full_path;
 	char	*tmp;
 
-	i = 0;
 	path_env = get_env_value("PATH", env);
 	if (!path_env)
 		return (NULL);
 	paths = ft_split(path_env, ':');
-	full_path = NULL;
-	while (paths && paths[i])
+	if (!paths)
+		return (NULL);
+	i = 0;
+	while (paths && paths[i++])
 	{
 		tmp = ft_strjoin(paths[i], "/");
 		full_path = ft_strjoin(tmp, command);
 		free(tmp);
 		if (access(full_path, F_OK | X_OK) == 0)
-		{
-			ft_free_split(paths);
-			return (full_path);
-		}
+			return (ft_free_split(paths), full_path);
 		free(full_path);
 		full_path = NULL;
-		i++;
 	}
 	ft_free_split(paths);
-	perror("Error : Command not found");
 	return (NULL);
 }
 

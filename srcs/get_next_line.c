@@ -6,11 +6,11 @@
 /*   By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 10:44:07 by idahhan           #+#    #+#             */
-/*   Updated: 2025/01/19 10:45:07 by idahhan          ###   ########.fr       */
+/*   Updated: 2025/01/20 12:54:40 by idahhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
+#include "../includes/pipex_bonus.h"
 #include "../libft/libft.h"
 
 char	*extract_line(char *remainder)
@@ -100,9 +100,9 @@ int	read_file_update_remainder(int fd, char **remainder)
 
 char	*get_next_line(int fd)
 {
-	int bytes_read;
-	static char *remainder;
-	char *line;
+	int			bytes_read;
+	static char	*remainder;
+	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || BUFFER_SIZE >= 2147483647)
 		return (NULL);
