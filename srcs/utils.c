@@ -6,24 +6,28 @@
 /*   By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:10:59 by idahhan           #+#    #+#             */
-/*   Updated: 2025/01/20 18:07:13 by idahhan          ###   ########.fr       */
+/*   Updated: 2025/01/25 11:58:36 by idahhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/pipex.h"
 #include "../libft/libft.h"
 
-char	*get_env_value(char *name, char **env)
+char	**get_path_directories(char **env)
 {
 	size_t	len;
 	int		i;
+	char	*path_env;
 
-	len = ft_strlen(name);
+	len = ft_strlen("PATH");
 	i = 0;
 	while (env[i])
 	{
-		if (ft_strncmp(name, env[i], len) == 0 && env[i][len] == '=')
-			return (env[i] + len + 1);
+		if (ft_strncmp("PATH", env[i], len) == 0 && env[i][len] == '=')
+		{
+			path_env = env[i] + len + 1;
+			return (ft_split(path_env, ':'));
+		}
 		i++;
 	}
 	return (NULL);
@@ -44,15 +48,11 @@ void	ft_free_split(char **split)
 char	*find_command_path(const char *command, char **env)
 {
 	int		i;
-	char	*path_env;
 	char	**paths;
 	char	*full_path;
 	char	*tmp;
 
-	path_env = get_env_value("PATH", env);
-	if (!path_env)
-		return (NULL);
-	paths = ft_split(path_env, ':');
+	paths = get_path_directories(env);
 	if (!paths)
 		return (NULL);
 	i = 0;
@@ -66,7 +66,7 @@ char	*find_command_path(const char *command, char **env)
 		free(full_path);
 		full_path = NULL;
 	}
-	printf(stderr, "pipex: command not found: %s\n", command);
+	perror("pipex: command not found");
 	ft_free_split(paths);
 	return (NULL);
 }
