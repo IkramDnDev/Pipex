@@ -6,12 +6,16 @@
 /*   By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/19 10:44:07 by idahhan           #+#    #+#             */
-/*   Updated: 2025/01/20 12:54:40 by idahhan          ###   ########.fr       */
+/*   Updated: 2025/01/29 14:09:46 by idahhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex_bonus.h"
-#include "../libft/libft.h"
+#include "libft/libft.h"
+#include "pipex.h"
+
+#ifndef BUFFER_SIZE
+# define BUFFER_SIZE 5
+#endif
 
 char	*extract_line(char *remainder)
 {

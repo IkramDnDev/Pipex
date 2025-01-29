@@ -6,12 +6,19 @@
 /*   By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 17:53:12 by idahhan           #+#    #+#             */
-/*   Updated: 2025/01/25 11:58:42 by idahhan          ###   ########.fr       */
+/*   Updated: 2025/01/29 18:28:14 by idahhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex_bonus.h"
-#include "../libft/libft.h"
+#include "libft/libft.h"
+#include "pipex.h"
+
+void	handle_error(char *cmd)
+{
+	ft_putstr_fd("pipex: command not found: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putchar_fd('\n', 2);
+}
 
 char	**get_path_directories(char **env)
 {
@@ -69,15 +76,9 @@ char	*find_command_path(const char *command, char **env)
 		free(full_path);
 		full_path = NULL;
 	}
-	perror("pipex: command not found");
+	handle_error((char *)command);
 	ft_free_split(paths);
 	return (NULL);
-}
-
-void	error(void)
-{
-	perror("Error");
-	exit(1);
 }
 
 void	execute_command(char *cmd, char **env)

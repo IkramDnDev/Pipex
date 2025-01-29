@@ -6,12 +6,18 @@
 /*   By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:53 by idahhan           #+#    #+#             */
-/*   Updated: 2025/01/24 10:28:36 by idahhan          ###   ########.fr       */
+/*   Updated: 2025/01/29 18:33:27 by idahhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex_bonus.h"
-#include "../libft/libft.h"
+#include "libft/libft.h"
+#include "pipex.h"
+
+void	error(void)
+{
+	perror("Error");
+	exit(1);
+}
 
 int	open_file(char *argv, int i)
 {
@@ -43,12 +49,14 @@ void	child_process2(char *av, char **env)
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
 		execute_command(av, env);
 	}
 	else
 	{
 		close(fd[1]);
 		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
 		waitpid(pid, NULL, 0);
 	}
 }
@@ -67,18 +75,18 @@ void	handle_here_doc(char *limiter)
 		close(fd[0]);
 		while (1)
 		{
-			write(STDOUT_FILENO, "heredoc> ", 9);
+			write(STDOUT_FILENO, "pipe heredoc> ", 14);
 			line = get_next_line(STDIN_FILENO);
 			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0
 				&& line[ft_strlen(limiter)] == '\n')
-				return (free(line), exit(0));
+				return (free(line), close(fd[1]), exit(0));
 			write(fd[1], line, ft_strlen(line));
 			free(line);
 		}
 	}
 	close(fd[1]);
 	dup2(fd[0], STDIN_FILENO);
-	close(fd[1]);
+	close(fd[0]);
 	waitpid(pid, NULL, 0);
 }
 

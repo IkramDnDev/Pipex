@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/01/29 11:54:55 by idahhan           #+#    #+#              #
+#    Updated: 2025/01/29 15:06:08 by idahhan          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = pipex
 
 CC = gcc
@@ -5,19 +17,15 @@ CFLAGS = -Wall -Wextra -Werror -g -Iincludes -Ilibft/includes
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
-SRC_DIR = srcs
 
-SRCS = $(SRC_DIR)/pipex.c \
-		$(SRC_DIR)/utils.c \
+SRCS = pipex.c utils.c \
 
-SRCS_BONUS = $(SRC_DIR)/pipex_bonus.c \
-		$(SRC_DIR)/utils_bonus.c \
-		$(SRC_DIR)/get_next_line.c
+SRCS_BONUS = pipex_bonus.c utils_bonus.c get_next_line.c \
 
-OBJS = $(SRCS:$(SRC_DIR)/%.c=%.o)
-OBJS_BONUS = $(SRCS_BONUS:$(SRC_DIR)/%.c=%.o)
+OBJS = $(SRCS:%.c=%.o)
+OBJS_BONUS = $(SRCS_BONUS:%.c=%.o)
 
-HEADER = includes/pipex.h
+HEADER = pipex.h
 
 all: $(NAME)
 
@@ -27,7 +35,7 @@ $(NAME): $(OBJS) $(LIBFT)
 bonus : $(OBJS_BONUS) $(LIBFT)
 	$(CC) $(CFLAGS) $(OBJS_BONUS) $(LIBFT) -o $(NAME)
 
-%.o: $(SRC_DIR)/%.c $(HEADER)
+%.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(LIBFT):

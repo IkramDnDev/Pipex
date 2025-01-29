@@ -6,12 +6,19 @@
 /*   By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:10:59 by idahhan           #+#    #+#             */
-/*   Updated: 2025/01/25 11:58:36 by idahhan          ###   ########.fr       */
+/*   Updated: 2025/01/29 18:06:15 by idahhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/pipex.h"
-#include "../libft/libft.h"
+#include "libft/libft.h"
+#include "pipex.h"
+
+void	handle_error(char *cmd)
+{
+	ft_putstr_fd("pipex: command not found: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putchar_fd('\n', 2);
+}
 
 char	**get_path_directories(char **env)
 {
@@ -55,8 +62,8 @@ char	*find_command_path(const char *command, char **env)
 	paths = get_path_directories(env);
 	if (!paths)
 		return (NULL);
-	i = 0;
-	while (paths[i++])
+	i = -1;
+	while (paths[++i])
 	{
 		tmp = ft_strjoin(paths[i], "/");
 		full_path = ft_strjoin(tmp, command);
@@ -66,15 +73,9 @@ char	*find_command_path(const char *command, char **env)
 		free(full_path);
 		full_path = NULL;
 	}
-	perror("pipex: command not found");
+	handle_error((char *)command);
 	ft_free_split(paths);
 	return (NULL);
-}
-
-void	error(void)
-{
-	perror("Error");
-	exit(1);
 }
 
 void	execute_command(char *cmd, char **env)
