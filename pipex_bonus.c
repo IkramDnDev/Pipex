@@ -6,7 +6,7 @@
 /*   By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:53 by idahhan           #+#    #+#             */
-/*   Updated: 2025/01/29 18:33:27 by idahhan          ###   ########.fr       */
+/*   Updated: 2025/01/30 10:48:19 by idahhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	error(void)
 {
 	perror("Error");
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 int	open_file(char *argv, int i)

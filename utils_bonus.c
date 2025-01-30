@@ -6,7 +6,7 @@
 /*   By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 17:53:12 by idahhan           #+#    #+#             */
-/*   Updated: 2025/01/29 18:28:14 by idahhan          ###   ########.fr       */
+/*   Updated: 2025/01/30 10:49:37 by idahhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,7 @@ void	execute_command(char *cmd, char **env)
 	if (!cmd_split || !cmd_split[0])
 	{
 		ft_free_split(cmd_split);
-		perror("Error");
-		exit(1);
+		error();
 	}
 	path = find_command_path(cmd_split[0], env);
 	if (!path)

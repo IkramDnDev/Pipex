@@ -6,7 +6,7 @@
 /*   By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:11:43 by idahhan           #+#    #+#             */
-/*   Updated: 2025/01/29 18:29:28 by idahhan          ###   ########.fr       */
+/*   Updated: 2025/01/30 11:13:37 by idahhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 void	error(void)
 {
 	perror("Error");
-	exit(1);
+	exit(EXIT_FAILURE);
 }
 
 void	child_process(char **argv, char **env, int *fd)
@@ -26,12 +26,7 @@ void	child_process(char **argv, char **env, int *fd)
 	close(fd[0]);
 	infd = open(argv[1], O_RDONLY, 0777);
 	if (infd == -1)
-	{
-		ft_putstr_fd("pipex: no such file or directory: ", 2);
-		ft_putstr_fd(argv[1], 2);
-		ft_putchar_fd('\n', 2);
-		exit(1);
-	}
+		error();
 	dup2(fd[1], STDOUT_FILENO);
 	dup2(infd, STDIN_FILENO);
 	close(fd[1]);
@@ -46,15 +41,7 @@ void	parent_process(char **argv, char **env, int *fd)
 	close(fd[1]);
 	outfd = open(argv[4], O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	if (outfd == -1)
-	{
-		perror("pipex");
-		exit(1);
-	}
-	if (access(argv[4], W_OK) != 0)
-	{
-		perror("Error permission");
-		exit(1);
-	}
+		error();
 	dup2(fd[0], STDIN_FILENO);
 	dup2(outfd, STDOUT_FILENO);
 	close(fd[0]);

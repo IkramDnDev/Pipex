@@ -6,7 +6,7 @@
 /*   By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:11:07 by idahhan           #+#    #+#             */
-/*   Updated: 2025/01/29 16:02:06 by idahhan          ###   ########.fr       */
+/*   Updated: 2025/01/30 10:47:51 by idahhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	parent_process(char **argv, char **env, int *fd);
 void	ft_free_split(char **split);
 void	execute_command(char *cmd, char **env);
 void	child_process2(char *av, char **env);
+void	handle_error(char *cmd);
 
 char	**get_path_directories(char **env);
 char	*find_command_path(const char *command, char **env);
