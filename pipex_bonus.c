@@ -6,12 +6,12 @@
 /*   By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:53 by idahhan           #+#    #+#             */
-/*   Updated: 2025/01/30 10:48:19 by idahhan          ###   ########.fr       */
+/*   Updated: 2025/02/01 12:27:19 by idahhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 void	error(void)
 {
@@ -35,7 +35,7 @@ int	open_file(char *argv, int i)
 	return (file);
 }
 
-void	child_process2(char *av, char **env)
+void	child_process(char *av, char **env)
 {
 	int		fd[2];
 	pid_t	pid;
@@ -107,12 +107,12 @@ int	main(int ac, char **av, char **env)
 		else
 		{
 			i = 2;
-			infd = open_file(av[1], 2);
 			outfd = open_file(av[ac - 1], 1);
+			infd = open_file(av[1], 2);
 			dup2(infd, STDIN_FILENO);
 		}
 		while (i < ac - 2)
-			child_process2(av[i++], env);
+			child_process(av[i++], env);
 		dup2(outfd, STDOUT_FILENO);
 		execute_command(av[ac - 2], env);
 	}

@@ -6,19 +6,12 @@
 /*   By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:10:59 by idahhan           #+#    #+#             */
-/*   Updated: 2025/01/30 11:16:24 by idahhan          ###   ########.fr       */
+/*   Updated: 2025/02/01 16:37:45 by idahhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "pipex.h"
-
-void	handle_error(char *cmd)
-{
-	ft_putstr_fd("pipex: command not found: ", 2);
-	ft_putstr_fd(cmd, 2);
-	ft_putchar_fd('\n', 2);
-}
 
 char	**get_path_directories(char **env)
 {
@@ -40,6 +33,25 @@ char	**get_path_directories(char **env)
 	return (NULL);
 }
 
+char	*get_full_path_from_paths(char *command, char **paths)
+{
+	int		i;
+	char	*tmp;
+	char	*full_path;
+
+	i = -1;
+	while (paths[++i])
+	{
+		tmp = ft_strjoin(paths[i], "/");
+		full_path = ft_strjoin(tmp, command);
+		free(tmp);
+		if (access(full_path, F_OK | X_OK) == 0)
+			return (full_path);
+		free(full_path);
+	}
+	return (NULL);
+}
+
 void	ft_free_split(char **split)
 {
 	int	i;
@@ -54,28 +66,25 @@ void	ft_free_split(char **split)
 
 char	*find_command_path(const char *command, char **env)
 {
-	int		i;
 	char	**paths;
 	char	*full_path;
-	char	*tmp;
 
+	if (command[0] == '/' || (command[0] == '.' && command[1] == '/'))
+	{
+		if (access(command, F_OK | X_OK) == 0)
+			return (ft_strdup(command));
+		return (NULL);
+	}
 	paths = get_path_directories(env);
 	if (!paths)
 		return (NULL);
-	i = -1;
-	while (paths[++i])
-	{
-		tmp = ft_strjoin(paths[i], "/");
-		full_path = ft_strjoin(tmp, command);
-		free(tmp);
-		if (access(full_path, F_OK | X_OK) == 0)
-			return (ft_free_split(paths), full_path);
-		free(full_path);
-		full_path = NULL;
-	}
-	handle_error((char *)command);
+	full_path = get_full_path_from_paths((char *)command, paths);
 	ft_free_split(paths);
+	if (full_path)
+		return (full_path);
+	ft_putstr_fd("pipex: command not found\n", 2);
 	return (NULL);
+	exit(1);
 }
 
 void	execute_command(char *cmd, char **env)
