@@ -6,18 +6,12 @@
 /*   By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/18 14:34:53 by idahhan           #+#    #+#             */
-/*   Updated: 2025/02/01 12:27:19 by idahhan          ###   ########.fr       */
+/*   Updated: 2025/02/07 17:22:36 by idahhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft/libft.h"
 #include "pipex_bonus.h"
-
-void	error(void)
-{
-	perror("Error");
-	exit(EXIT_FAILURE);
-}
 
 int	open_file(char *argv, int i)
 {
@@ -40,17 +34,16 @@ void	child_process(char *av, char **env)
 	int		fd[2];
 	pid_t	pid;
 
-	if (pipe(fd) == -1)
-		error();
+	handle_pipe(fd);
 	pid = fork();
-	if (pid == -1)
-		error();
+	handle_fork_error(pid);
 	if (pid == 0)
 	{
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 		execute_command(av, env);
+		exit(EXIT_FAILURE);
 	}
 	else
 	{
@@ -67,15 +60,14 @@ void	handle_here_doc(char *limiter)
 	pid_t	pid;
 	char	*line;
 
-	if ((pipe(fd) == -1))
-		error();
+	handle_pipe(fd);
 	pid = fork();
 	if (pid == 0)
 	{
 		close(fd[0]);
 		while (1)
 		{
-			write(STDOUT_FILENO, "pipe heredoc> ", 14);
+			write(STDOUT_FILENO, "pipe heredoc> ", 15);
 			line = get_next_line(STDIN_FILENO);
 			if (ft_strncmp(line, limiter, ft_strlen(limiter)) == 0
 				&& line[ft_strlen(limiter)] == '\n')
@@ -90,6 +82,12 @@ void	handle_here_doc(char *limiter)
 	waitpid(pid, NULL, 0);
 }
 
+void	process_children(int ac, int i, char **av, char **env)
+{
+	while (i < (ac - 2))
+		child_process(av[i++], env);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	int	i;
@@ -98,7 +96,7 @@ int	main(int ac, char **av, char **env)
 
 	if (ac >= 5)
 	{
-		if (ft_strncmp(av[1], "here_doc", 8) == 0)
+		if (ft_strncmp(av[1], "here_doc", 9) == 0)
 		{
 			i = 3;
 			outfd = open_file(av[ac - 1], 0);
@@ -111,9 +109,9 @@ int	main(int ac, char **av, char **env)
 			infd = open_file(av[1], 2);
 			dup2(infd, STDIN_FILENO);
 		}
-		while (i < ac - 2)
-			child_process(av[i++], env);
+		process_children(ac, i, av, env);
 		dup2(outfd, STDOUT_FILENO);
+		close_fds_except_std();
 		execute_command(av[ac - 2], env);
 	}
 	write(STDERR_FILENO, "Usage: ./pipex infile cmd1 cmd2 ... outfile\n", 46);

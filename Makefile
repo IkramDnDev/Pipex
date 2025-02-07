@@ -6,7 +6,7 @@
 #    By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/29 11:54:55 by idahhan           #+#    #+#              #
-#    Updated: 2025/02/01 16:43:56 by idahhan          ###   ########.fr        #
+#    Updated: 2025/02/07 15:47:00 by idahhan          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,9 +19,9 @@ LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 
-SRCS = pipex.c utils.c \
+SRCS = pipex.c utils.c error.c\
 
-SRCS_BONUS = pipex_bonus.c utils_bonus.c get_next_line.c \
+SRCS_BONUS = pipex_bonus.c utils_bonus.c get_next_line.c error_bonus.c\
 
 OBJS = $(SRCS:%.c=%.o)
 OBJS_BONUS = $(SRCS_BONUS:%.c=%.o)

@@ -6,7 +6,7 @@
 /*   By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 18:10:59 by idahhan           #+#    #+#             */
-/*   Updated: 2025/02/01 16:37:45 by idahhan          ###   ########.fr       */
+/*   Updated: 2025/02/03 15:07:16 by idahhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ char	*find_command_path(const char *command, char **env)
 		return (full_path);
 	ft_putstr_fd("pipex: command not found\n", 2);
 	return (NULL);
-	exit(1);
 }
 
 void	execute_command(char *cmd, char **env)

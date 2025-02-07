@@ -6,7 +6,7 @@
 /*   By: idahhan <idahhan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 13:43:42 by idahhan           #+#    #+#             */
-/*   Updated: 2025/02/01 16:52:54 by idahhan          ###   ########.fr       */
+/*   Updated: 2025/02/07 17:17:50 by idahhan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,13 @@
 # endif
 
 void	error(void);
+void	handle_pipe(int fd[2]);
+void	handle_fork_error(pid_t pid);
 void	ft_free_split(char **split);
 void	execute_command(char *cmd, char **env);
 void	child_process(char *av, char **env);
+void	process_children(int ac, int i, char **av, char **env);
+void	close_fds_except_std(void);
 
 char	*get_next_line(int fd);
 char	**get_path_directories(char **env);
